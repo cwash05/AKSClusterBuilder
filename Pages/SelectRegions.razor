@@ -1,0 +1,90 @@
+﻿@inject BuildData BuildData
+@using AKSClusterBuilderWebClient.Services
+@using AKSClusterBuilderWebClient.Models
+
+<h3>Select the resource locations</h3>
+
+<FluentCombobox Value="" TOption="Regions" Id="cluster-regions-combobox-autocomplete" Autocomplete="ComboboxAutocomplete.List" ValueChanged="OnSelectionChangeCluster" Placeholder="East US" Height="200px">
+    @foreach (var option in selectedClusterRegionOptions)
+    {
+        <FluentOption Value="@option.Id">@option.Text</FluentOption>
+    }
+</FluentCombobox>
+
+<div style="margin-bottom: 20px">
+    <b>Selected Cluster Region </b>: @BuildData.selectedClusterRegion
+</div>
+
+
+<FluentCombobox Value="" TOption="Regions" Id="grafana-regions-combobox-autocomplete" Autocomplete="ComboboxAutocomplete.List" ValueChanged="OnSelectionChangeGrafana" Placeholder="East US" Height="200px">
+    @foreach (var option in selectedGrafanaRegionOptions)
+    {
+        <FluentOption Value="@option.Id">@option.Text</FluentOption>
+    }
+</FluentCombobox>
+
+<div style="margin-bottom: 20px">
+    <b>Selected Grafana Region </b>: @BuildData.selectedGrafanaRegion
+</div>
+
+
+
+<FluentCombobox Value="" TOption="Regions" Id="amw-regions-combobox-autocomplete" Autocomplete="ComboboxAutocomplete.List" ValueChanged="OnSelectionChangeAMW" Placeholder="East US" Height="200px" Position="SelectPosition.Above">
+    @foreach (var option in selectedAMWRegionOptions)
+    {
+        <FluentOption Value="@option.Id">@option.Text</FluentOption>
+    }
+</FluentCombobox>
+
+<p>
+    <b>Selected AMW Region </b>: @BuildData.selectedAMWRegion
+</p>
+
+
+@code
+{
+
+    private string selectedClusterRegion;
+    private string selectedGrafanaRegion;
+    private string selectedAMWRegion;
+    private List<RegionsComboOptions> selectedClusterRegionOptions;
+    private List<RegionsComboOptions> selectedGrafanaRegionOptions;
+    private List<RegionsComboOptions> selectedAMWRegionOptions;
+
+
+    protected override void OnInitialized()
+    {
+        selectedClusterRegionOptions = RegionsComboboxService.ClusterRegionOptions();
+
+        selectedGrafanaRegionOptions = RegionsComboboxService.GrafanaRegionOptions();
+
+        selectedAMWRegionOptions = RegionsComboboxService.AMWRegionOptions();
+    }
+
+    private void OnSelectionChangeCluster(string selectedId)
+    {
+
+        RegionsComboOptions selectedClusterOption = selectedClusterRegionOptions.FirstOrDefault(o => o.Id == selectedId);
+        BuildData.selectedClusterRegion = selectedClusterOption?.Text;
+        StateHasChanged();
+
+
+    }
+
+    private void OnSelectionChangeGrafana(string selectedId)
+    {
+        RegionsComboOptions selectedGrafanaOption = selectedGrafanaRegionOptions.FirstOrDefault(o => o.Id == selectedId);
+        BuildData.selectedGrafanaRegion = selectedGrafanaOption?.Text;
+        StateHasChanged();
+    }
+
+    private void OnSelectionChangeAMW(string selectedId)
+    {
+        RegionsComboOptions selectedAMWOption = selectedAMWRegionOptions.FirstOrDefault(o => o.Id == selectedId);
+        BuildData.selectedAMWRegion = selectedAMWOption?.Text;
+        StateHasChanged();
+    }
+
+
+}
+

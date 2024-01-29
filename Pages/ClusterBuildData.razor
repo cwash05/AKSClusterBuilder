@@ -1,0 +1,205 @@
+﻿@page "/clusterbuilddata"
+
+@using System.Text.Json
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Net.Http.Headers
+@using System.Text
+@using System.Net.Http;
+
+
+@attribute [Authorize]
+
+@inject NavigationManager Navigation
+@inject IAccessTokenProvider AuthorizationService
+@inject BuildData BuildData
+@inject HttpClient httpClient
+@inject IAccessTokenProvider AccessTokenProvider
+
+
+<h3>Cluster Builder</h3>
+
+<AuthorizeView Context="authContext">
+    <Authorized>
+        <EditForm Model="@BuildData" Context="formContext" OnValidSubmit="@HandleValidSubmit">
+            <FluentGrid Spacing="3" OnBreakpointEnter="@OnBreakpointEnterHandler" Justify="@Justification">
+                <FluentGridItem xs="12">
+                    <div class="card">
+                        <FluentDesignSystemProvider>
+                            <FluentCard Width="400px" Height="100px" Class="card-hover">
+                                <h4>Enter Resource Name Prefix</h4>
+                                <DataAnnotationsValidator />
+                                <FluentTextField Id="nameprefix" @bind-Value=BuildData.namePrefix Placeholder="ex: orderProc"></FluentTextField>
+                                <ValidationMessage For="@(() => BuildData.namePrefix)" />
+                            </FluentCard>
+                        </FluentDesignSystemProvider>
+                    </div>
+                </FluentGridItem>
+                <FluentGridItem xs="6" sm="4">
+                    <div class="card">
+                        <FluentDesignSystemProvider NeutralBaseColor="#464EB8">
+                            <FluentCard Height="400px" Class="card-hover">
+                                <SelectRegions />
+                            </FluentCard>
+                        </FluentDesignSystemProvider>
+                    </div>
+                </FluentGridItem>
+                <FluentGridItem xs="6" sm="4">
+                    <div class="card">
+                        <FluentDesignSystemProvider NeutralBaseColor="#464EB8" FillColor="#000000">
+                            <FluentCard Height="400px" Class="card-hover">
+                                <h4>Select your egress type</h4>
+                                <FluentRadioGroup Required="true" aria-labelledby="label1" @bind-Value=BuildData.egressType Name="egress" Orientation="Orientation.Vertical" Style="margin-bottom: 20px">
+                                    <FluentRadio Value="@("LoadBalancer")">Load Balancer</FluentRadio>
+                                    <FluentRadio Value="@("UserAssignedNatGateway")">User Assigned NatGateway</FluentRadio>
+                                    <FluentRadio Value="@("UserDefinedRouting")">User Defined Routing</FluentRadio>
+                                </FluentRadioGroup>
+                                <br />
+                                <b>Selected Egress Type </b>: @BuildData.egressType
+                            </FluentCard>
+                        </FluentDesignSystemProvider>
+                    </div>
+                </FluentGridItem>
+                <FluentGridItem xs="6" sm="4">
+                    <div class="card">
+                        <FluentDesignSystemProvider NeutralBaseColor="#464EB8">
+                            <FluentCard Height="400px" Class="card-hover">
+                                <h4>Select your ingress type</h4>
+                                <FluentRadioGroup Required="true" aria-labelledby="label1" @bind-Value=BuildData.ingressType Name="egress" Orientation="Orientation.Vertical" Style="margin-bottom: 20px">
+                                    <FluentRadio Value="@("None")">None</FluentRadio>
+                                    <FluentRadio Value="@("ApplicationGateway")">Application Gateway Ingress</FluentRadio>
+                                    <FluentRadio Value="@("WebAppRouting")">Web App Routing</FluentRadio>
+                                    <FluentRadio Disabled=true Value="@("AppGatewayContainers")">AppGateway for Containers</FluentRadio>
+                                </FluentRadioGroup>
+                                <br />
+                                <b>Selected Egress Type </b>: @BuildData.ingressType
+                            </FluentCard>
+                        </FluentDesignSystemProvider>
+                    </div>
+                </FluentGridItem>
+                <FluentGridItem xs="6" sm="4">
+                    <div class="card">
+                        <FluentDesignSystemProvider NeutralBaseColor="#464EB8">
+                            <FluentCard Height="400px" Class="card-hover">
+                                <h4>Select Network Plugin Mode</h4>
+                                <FluentCombobox Id="combobox-with-list-autocomplete" Autocomplete="ComboboxAutocomplete.List" @bind-Value="@BuildData.networkPluginMode" TOption="string" Style="margin-bottom: 10px">
+                                    <FluentOption Selected Value="true">Overlay</FluentOption>
+                                     <FluentOption Value="false">Dynamic</FluentOption>
+                                 </FluentCombobox>
+                                 <br />
+                                 <b>Selected Network Plugin Mode </b>: @BuildData.networkPluginMode
+                            </FluentCard>
+                        </FluentDesignSystemProvider>
+                    </div>
+                </FluentGridItem>
+                <FluentGridItem xs="6" sm="4">
+                    <div class="card">
+                        <FluentDesignSystemProvider NeutralBaseColor="#464EB8">
+                            <FluentCard Height="400px" Class="card-hover">
+                                <h4>Select Linux OS SKU</h4>
+                                <FluentCombobox Id="combobox-with-list-autocomplete" Autocomplete="ComboboxAutocomplete.List" @bind-Value="@BuildData.linuxOS" TOption="string" Style="margin-bottom: 10px">
+                                    <FluentOption Selected Value="AzureLinux">Azure Linux</FluentOption>
+                                     <FluentOption Value="Ubuntu">Ubuntu</FluentOption>
+                                 </FluentCombobox>
+                                 <br />
+                                 <b>Selected Linux OS SKU </b>: @BuildData.linuxOS
+                            </FluentCard>
+                        </FluentDesignSystemProvider>
+                    </div>
+                </FluentGridItem>
+                <FluentGridItem xs="6" sm="4">
+                    <div class="card">
+                        xs="6" sm="3"
+        
+                        <FluentCard>
+                            <div class="contents">
+                                Dark
+                                <FluentButton Appearance="Appearance.Accent">Accent</FluentButton>
+                                <FluentButton Appearance="Appearance.Stealth">Stealth</FluentButton>
+                                <FluentButton Appearance="Appearance.Outline">Outline</FluentButton>
+                                <FluentButton Appearance="Appearance.Lightweight">Lightweight</FluentButton>
+                            </div>
+                        </FluentCard>
+        
+                    </div>
+                </FluentGridItem>
+            </FluentGrid>
+          
+            <FluentButton Type="ButtonType.Submit" >Build Cluster</FluentButton>
+        </EditForm>
+
+        @if (!string.IsNullOrEmpty(responseMessage))
+        {
+            <p>@responseMessage</p>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <b>Please log in</b><a href="authentication/login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+
+    JustifyContent Justification = JustifyContent.FlexStart;     
+    private string responseMessage;
+    
+
+    private async Task<string> HandleValidSubmit()
+    {
+                           
+        Console.WriteLine($"selected region from the client: {BuildData.namePrefix}");
+
+        var tokenResult = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
+        {
+            Scopes = new[] { "https://management.azure.com/.default" }
+        });
+
+        var tokenResultw = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
+        {
+                Scopes = new[] { "79c344c5-0ef6-483e-ba43-c45d99657e5b/.default" }
+        });
+                                  
+
+        if (tokenResultw.TryGetToken(out var token))
+        {
+            // Prepare the HTTP request
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7136/createresource")
+            {
+                Content = new StringContent(JsonSerializer.Serialize(BuildData), Encoding.UTF8, "application/json")
+            };
+
+            // Add the Azure Resource Manager token to the Authorization header
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
+            // Send the request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Assuming the response is plain text
+                responseMessage = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(responseMessage);
+            }
+            else
+            {
+                responseMessage = $"Error: {response.ReasonPhrase}";
+            }
+        }
+        else
+        {
+            responseMessage = "Error: Unable to obtain access token.";
+        }
+
+
+        return responseMessage;
+    }
+
+    void OnBreakpointEnterHandler(GridItemSize size)
+    {
+        Console.WriteLine($"Page Size: {size}");
+
+    }
+}
