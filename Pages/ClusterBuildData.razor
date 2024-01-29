@@ -17,6 +17,7 @@
 @inject BuildData BuildData
 @inject HttpClient httpClient
 @inject IAccessTokenProvider AccessTokenProvider
+@inject IConfiguration Configuration
 
 
 <h3>Cluster Builder</h3>
@@ -152,21 +153,22 @@
                            
         Console.WriteLine($"selected region from the client: {BuildData.namePrefix}");
 
-        var tokenResult = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
+        AccessTokenResult tokenResult = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
         {
             Scopes = new[] { "https://management.azure.com/.default" }
         });
 
-        var tokenResultw = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
+        string[] scopes = Configuration.GetSection("AzureAd:ClientIdScope").Get<string[]>();
+        AccessTokenResult tokenResultw = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
         {
-                Scopes = new[] { "79c344c5-0ef6-483e-ba43-c45d99657e5b/.default" }
+            Scopes = scopes
         });
-                                  
+
 
         if (tokenResultw.TryGetToken(out var token))
         {
             // Prepare the HTTP request
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7136/createresource")
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7136/createresource")
             {
                 Content = new StringContent(JsonSerializer.Serialize(BuildData), Encoding.UTF8, "application/json")
             };
@@ -175,7 +177,7 @@
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
             // Send the request
-            var response = await httpClient.SendAsync(request);
+            HttpResponseMessage response = await httpClient.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
