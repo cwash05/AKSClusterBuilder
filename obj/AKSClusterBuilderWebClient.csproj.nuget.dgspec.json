@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cwash\\source\\repos\\AKSClusterBuilderWebClient\\AKSClusterBuilderWebClient.csproj": {}
+    "C:\\Users\\chwash\\source\\repos\\AKSClusterBuilderWebClient\\AKSClusterBuilderWebClient.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cwash\\source\\repos\\AKSClusterBuilderWebClient\\AKSClusterBuilderWebClient.csproj": {
+    "C:\\Users\\chwash\\source\\repos\\AKSClusterBuilderWebClient\\AKSClusterBuilderWebClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cwash\\source\\repos\\AKSClusterBuilderWebClient\\AKSClusterBuilderWebClient.csproj",
+        "projectUniqueName": "C:\\Users\\chwash\\source\\repos\\AKSClusterBuilderWebClient\\AKSClusterBuilderWebClient.csproj",
         "projectName": "AKSClusterBuilderWebClient",
-        "projectPath": "C:\\Users\\cwash\\source\\repos\\AKSClusterBuilderWebClient\\AKSClusterBuilderWebClient.csproj",
-        "packagesPath": "C:\\Users\\cwash\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cwash\\source\\repos\\AKSClusterBuilderWebClient\\obj\\",
+        "projectPath": "C:\\Users\\chwash\\source\\repos\\AKSClusterBuilderWebClient\\AKSClusterBuilderWebClient.csproj",
+        "packagesPath": "C:\\Users\\chwash\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\chwash\\source\\repos\\AKSClusterBuilderWebClient\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\cwash\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\chwash\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -94,12 +94,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
-              "version": "[8.0.1, 8.0.1]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
