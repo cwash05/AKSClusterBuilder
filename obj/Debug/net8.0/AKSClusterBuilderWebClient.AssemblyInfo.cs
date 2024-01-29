@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AKSClusterBuilderWebClient")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+95c85f7ae254ba7fdc2a4151dce5c920c64026ed")]
 [assembly: System.Reflection.AssemblyProductAttribute("AKSClusterBuilderWebClient")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AKSClusterBuilderWebClient")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
