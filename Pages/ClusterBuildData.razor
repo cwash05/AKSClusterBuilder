@@ -152,6 +152,7 @@
     {
                            
         Console.WriteLine($"selected region from the client: {BuildData.namePrefix}");
+        Console.WriteLine($"selected region from the client: {BuildData.selectedClusterRegion}");
 
         AccessTokenResult tokenResult = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
         {
