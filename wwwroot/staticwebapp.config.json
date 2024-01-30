@@ -1,7 +1,7 @@
 {
     "navigationFallback": {
         "rewrite": "/index.html",
-        "exclude": ["/images/*", "/css/*", "/js/*", "/authentication/*"]
+        "exclude": ["/images/*", "/css/*", "/js/*"]
     }
     // No additional route rules needed for a basic setup
 }
