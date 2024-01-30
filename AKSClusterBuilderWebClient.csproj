@@ -15,4 +15,8 @@
 	<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.*-* " />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="nginx\" />
+  </ItemGroup>
+
 </Project>

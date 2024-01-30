@@ -35,9 +35,9 @@ builder.Services.AddMsalAuthentication(options =>
         }
     }
     options.ProviderOptions.LoginMode = "redirect";
-
-
-
+    //options.UserOptions.NameClaim = "name";
+    //options.UserOptions.RoleClaim = "role";
+    //options.UserOptions.ScopeClaim = "scope";
 
 
 
@@ -46,7 +46,7 @@ builder.Services.AddMsalAuthentication(options =>
     //options.ProviderOptions.DefaultAccessTokenScopes.Add("79c344c5-0ef6-483e-ba43-c45d99657e5b/.default");
     //options.ProviderOptions.AdditionalScopesToConsent.Add("https://management.azure.com/.default");
     //options.ProviderOptions.DefaultAccessTokenScopes.Add(builder.Configuration["AppApiScope"]); // Add your API scope
-    
+
 });
 
 builder.Services.AddHttpClient();
