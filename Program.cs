@@ -34,7 +34,7 @@ builder.Services.AddMsalAuthentication(options =>
             options.ProviderOptions.AdditionalScopesToConsent.Add(scope);
         }
     }
-    options.ProviderOptions.LoginMode = "redirect";
+    options.ProviderOptions.LoginMode = "popup";
     //options.UserOptions.NameClaim = "name";
     //options.UserOptions.RoleClaim = "role";
     //options.UserOptions.ScopeClaim = "scope";
