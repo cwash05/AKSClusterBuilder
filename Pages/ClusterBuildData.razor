@@ -169,7 +169,7 @@
         if (tokenResultw.TryGetToken(out var token))
         {
             // Prepare the HTTP request
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://aksclusterbuilderwebapi.azurewebsites.net/createresource")
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://aksclusterbuilderwebapi.thankfulcoast-1123fe9b.eastus.azurecontainerapps.io/createresource")
             {
                 Content = new StringContent(JsonSerializer.Serialize(BuildData), Encoding.UTF8, "application/json")
             };
