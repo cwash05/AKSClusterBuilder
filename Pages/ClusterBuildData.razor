@@ -10,7 +10,7 @@
 @using System.Net.Http;
 
 
-@attribute [Authorize]
+ <!-- attribute [Authorize] -->
 
 @inject NavigationManager Navigation
 @inject IAccessTokenProvider AuthorizationService
@@ -169,7 +169,7 @@
         if (tokenResultw.TryGetToken(out var token))
         {
             // Prepare the HTTP request
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://aksclusterbuilderwebapi.thankfulcoast-1123fe9b.eastus.azurecontainerapps.io/createresource")
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7183/createresource")
             {
                 Content = new StringContent(JsonSerializer.Serialize(BuildData), Encoding.UTF8, "application/json")
             };
