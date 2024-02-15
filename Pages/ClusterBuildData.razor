@@ -8,6 +8,9 @@
 @using System.Net.Http.Headers
 @using System.Text
 @using System.Net.Http;
+@using Microsoft.Graph;
+@using api
+
 
 
  <!-- attribute [Authorize] -->
@@ -18,6 +21,7 @@
 @inject HttpClient httpClient
 @inject IAccessTokenProvider AccessTokenProvider
 @inject IConfiguration Configuration
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 
 <h3>Cluster Builder</h3>
@@ -146,18 +150,31 @@
 
     JustifyContent Justification = JustifyContent.FlexStart;     
     private string responseMessage;
-    
+    private string? rowKey;
+    private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+
 
     private async Task<string> HandleValidSubmit()
     {
-                           
+
         Console.WriteLine($"selected region from the client: {BuildData.namePrefix}");
         Console.WriteLine($"selected region from the client: {BuildData.selectedClusterRegion}");
 
-        AccessTokenResult tokenResult = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
-        {
-            Scopes = new[] { "https://management.azure.com/.default" }
-        });
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        claims = user.Claims;
+        rowKey = user.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
+
+        var backend = new GetUrl();
+        var backendUrl = backend.GetBackendUrl(rowKey);
+        
+
+        // AccessTokenResult tokenResult = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
+        // {
+        //     Scopes = new[] { "https:management.azure.com/.default" }
+        // });
 
         string[] scopes = Configuration.GetSection("AzureAd:ClientIdScope").Get<string[]>();
         AccessTokenResult tokenResultw = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
@@ -168,8 +185,10 @@
 
         if (tokenResultw.TryGetToken(out var token))
         {
+            
+            
             // Prepare the HTTP request
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7183/createresource")
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ($"https://{backendUrl}/createresource"))
             {
                 Content = new StringContent(JsonSerializer.Serialize(BuildData), Encoding.UTF8, "application/json")
             };

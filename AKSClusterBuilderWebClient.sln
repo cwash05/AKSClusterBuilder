@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKSClusterBuilderWebClient"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKSClusterBuilderWebAPI", "..\AKSClusterBuilderWebAPI\AKSClusterBuilderWebAPI.csproj", "{435F9EF4-35FD-42DF-9B60-DB499B194EF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "api\api.csproj", "{828A5D68-937C-4CC4-8454-6AC719107802}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{435F9EF4-35FD-42DF-9B60-DB499B194EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{435F9EF4-35FD-42DF-9B60-DB499B194EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{435F9EF4-35FD-42DF-9B60-DB499B194EF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{828A5D68-937C-4CC4-8454-6AC719107802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{828A5D68-937C-4CC4-8454-6AC719107802}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{828A5D68-937C-4CC4-8454-6AC719107802}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{828A5D68-937C-4CC4-8454-6AC719107802}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
