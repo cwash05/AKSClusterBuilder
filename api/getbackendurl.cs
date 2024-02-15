@@ -27,6 +27,10 @@ namespace api
 
             string tableName = "userbackend";
             string partitionKey = await GetBusinessPhoneAsync();
+
+            Console.WriteLine($"Partition Key: {partitionKey}");
+
+
             string rowKey = req.Query["rowKey"];
 
             if (string.IsNullOrEmpty(partitionKey) || string.IsNullOrEmpty(rowKey))

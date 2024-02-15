@@ -166,10 +166,11 @@
 
         claims = user.Claims;
         rowKey = user.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
+        Console.WriteLine($"RowKey: {rowKey}");
 
         var backend = new GetUrl();
         var backendUrl = backend.GetBackendUrl(rowKey);
-        
+        Console.WriteLine($"Backend URL: {backendUrl}");
 
         // AccessTokenResult tokenResult = await AccessTokenProvider.RequestAccessToken(new AccessTokenRequestOptions
         // {
